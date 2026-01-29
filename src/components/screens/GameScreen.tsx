@@ -82,12 +82,21 @@ export const GameScreen = ({ level, onComplete, onBack }: GameScreenProps) => {
           </p>
         </div>
         <Button 
-          variant="ghost" 
+          variant={showHint ? "playful" : "outline"}
           size="icon" 
           onClick={() => setShowHint(!showHint)}
-          className={cn(showHint && "text-primary")}
+          className={cn(
+            "relative transition-all duration-300",
+            showHint ? "animate-wiggle" : "hover:animate-pop",
+            !showHint && attempts > 2 && "animate-pulse-glow"
+          )}
         >
-          <HelpCircle className="w-6 h-6" />
+          <HelpCircle className={cn("w-6 h-6 transition-transform", showHint && "rotate-12")} />
+          {!showHint && (
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground animate-bounce-in">
+              💡
+            </span>
+          )}
         </Button>
       </div>
 
