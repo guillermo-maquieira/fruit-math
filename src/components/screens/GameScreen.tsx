@@ -89,32 +89,35 @@ export const GameScreen = ({ level, onComplete, onBack }: GameScreenProps) => {
         {/* Question */}
         <div className="bg-card rounded-3xl shadow-card p-6 sm:p-8 w-full max-w-lg animate-bounce-in">
           <div className="text-center mb-6">
-            {/* Hint button row */}
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <p className="text-lg text-muted-foreground">What is</p>
-              <button
-                onClick={() => setShowHint(!showHint)}
-                className={cn(
-                  "relative transition-all duration-300 hover:scale-110",
-                  showHint ? "animate-wiggle" : "hover:animate-pop",
-                  !showHint && attempts > 2 && "animate-pulse-glow"
-                )}
-                aria-label="Show hint"
-              >
-                <span className={cn(
-                  "text-3xl transition-transform inline-block",
-                  showHint && "rotate-12 scale-110"
-                )}>
-                  🤔
+            {/* Hint button */}
+            <button
+              onClick={() => setShowHint(!showHint)}
+              className={cn(
+                "relative transition-all duration-300 hover:scale-110 mb-4 group",
+                showHint ? "animate-wiggle" : "hover:animate-pop",
+                !showHint && attempts > 2 && "animate-pulse-glow"
+              )}
+              aria-label="Show hint"
+            >
+              <span className={cn(
+                "text-6xl sm:text-7xl transition-transform inline-block",
+                showHint && "rotate-12 scale-110"
+              )}>
+                🤔
+              </span>
+              {!showHint && (
+                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs sm:text-sm font-bold text-primary whitespace-nowrap animate-bounce">
+                  👆 Click for help!
                 </span>
-                {!showHint && (
-                  <span className="absolute -top-1 -right-2 text-xs animate-bounce">
-                    💡
-                  </span>
-                )}
-              </button>
-            </div>
-            <div className="flex items-center justify-center gap-3 text-4xl sm:text-5xl font-black text-foreground">
+              )}
+              {showHint && (
+                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs sm:text-sm font-bold text-muted-foreground whitespace-nowrap">
+                  Got it! 🎯
+                </span>
+              )}
+            </button>
+            
+            <div className="flex items-center justify-center gap-3 text-4xl sm:text-5xl font-black text-foreground mt-8">
               <span className="bg-gradient-primary text-primary-foreground px-4 py-2 rounded-2xl">
                 {level.multiplier1}
               </span>
