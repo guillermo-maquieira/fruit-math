@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { FruitDisplay } from "@/components/FruitDisplay";
 import { Level, getRandomFruit, generateWrongAnswers, shuffleArray } from "@/lib/gameData";
-import { ArrowLeft, HelpCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface GameScreenProps {
@@ -81,23 +81,7 @@ export const GameScreen = ({ level, onComplete, onBack }: GameScreenProps) => {
             Attempts: {attempts}
           </p>
         </div>
-        <Button 
-          variant={showHint ? "playful" : "outline"}
-          size="icon" 
-          onClick={() => setShowHint(!showHint)}
-          className={cn(
-            "relative transition-all duration-300",
-            showHint ? "animate-wiggle" : "hover:animate-pop",
-            !showHint && attempts > 2 && "animate-pulse-glow"
-          )}
-        >
-          <HelpCircle className={cn("w-6 h-6 transition-transform", showHint && "rotate-12")} />
-          {!showHint && (
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground animate-bounce-in">
-              💡
-            </span>
-          )}
-        </Button>
+        <div className="w-10" /> {/* Spacer for balance */}
       </div>
 
       {/* Main content */}
@@ -105,7 +89,31 @@ export const GameScreen = ({ level, onComplete, onBack }: GameScreenProps) => {
         {/* Question */}
         <div className="bg-card rounded-3xl shadow-card p-6 sm:p-8 w-full max-w-lg animate-bounce-in">
           <div className="text-center mb-6">
-            <p className="text-lg text-muted-foreground mb-2">What is</p>
+            {/* Hint button row */}
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <p className="text-lg text-muted-foreground">What is</p>
+              <button
+                onClick={() => setShowHint(!showHint)}
+                className={cn(
+                  "relative transition-all duration-300 hover:scale-110",
+                  showHint ? "animate-wiggle" : "hover:animate-pop",
+                  !showHint && attempts > 2 && "animate-pulse-glow"
+                )}
+                aria-label="Show hint"
+              >
+                <span className={cn(
+                  "text-3xl transition-transform inline-block",
+                  showHint && "rotate-12 scale-110"
+                )}>
+                  🤔
+                </span>
+                {!showHint && (
+                  <span className="absolute -top-1 -right-2 text-xs animate-bounce">
+                    💡
+                  </span>
+                )}
+              </button>
+            </div>
             <div className="flex items-center justify-center gap-3 text-4xl sm:text-5xl font-black text-foreground">
               <span className="bg-gradient-primary text-primary-foreground px-4 py-2 rounded-2xl">
                 {level.multiplier1}
